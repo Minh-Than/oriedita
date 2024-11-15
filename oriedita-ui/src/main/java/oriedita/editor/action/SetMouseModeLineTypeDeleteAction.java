@@ -28,6 +28,6 @@ public class SetMouseModeLineTypeDeleteAction extends AbstractOrieditaAction imp
     public void actionPerformed(ActionEvent e) {
         canvasModel.setMouseMode(mouseMode);
         canvasModel.setFoldLineAdditionalInputMode(foldLineAdditionalInputMode);
-        mainCreasePatternWorker.unselect_all();
+        mainCreasePatternWorker.unselect_all(false);
     }
 }

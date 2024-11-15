@@ -28,7 +28,7 @@ public class SetMouseModeWithAfterColorAndUnselectAction extends AbstractOriedit
     public void actionPerformed(ActionEvent e) {
         canvasModel.setMouseMode(mouseMode);
         canvasModel.setMouseModeAfterColorSelection(mouseMode);
-        mainCreasePatternWorker.unselect_all();
+        mainCreasePatternWorker.unselect_all(false);
         buttonService.Button_shared_operation();
     }
 }

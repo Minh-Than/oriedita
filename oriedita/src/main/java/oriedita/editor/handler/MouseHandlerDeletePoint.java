@@ -25,6 +25,7 @@ public class MouseHandlerDeletePoint extends BaseMouseHandler {
 
         d.getFoldLineSet().del_V(p, d.getSelectionDistance(), Epsilon.UNKNOWN_1EN6);
         d.record();
+        d.unselect_all(false);
     }
 
     //マウス操作(ドラッグしたとき)を行う関数

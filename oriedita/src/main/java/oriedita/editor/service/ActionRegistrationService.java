@@ -105,8 +105,8 @@ public class ActionRegistrationService {
             actionService.registerAction(entry.getKey(), actionFactory.setMouseModeAction(entry.getValue()));
         }
 
-        // setMouseModeWithUnselect actions
-        Map<ActionType, MouseMode> mouseModeWithUnselectActions = Map.ofEntries(
+        // setMouseModeNoUnselect actions
+        Map<ActionType, MouseMode> mouseModeNoUnselectActions = Map.ofEntries(
                 Map.entry(ActionType.senbun_henkanAction, MouseMode.CHANGE_CREASE_TYPE_4),
                 Map.entry(ActionType.vertexAddAction, MouseMode.DRAW_POINT_14),
                 Map.entry(ActionType.vertexDeleteAction, MouseMode.DELETE_POINT_15),
@@ -128,8 +128,8 @@ public class ActionRegistrationService {
                 Map.entry(ActionType.textAction, MouseMode.TEXT)
         );
 
-        for (Map.Entry<ActionType, MouseMode> entry : mouseModeWithUnselectActions.entrySet()) {
-            actionService.registerAction(entry.getKey(), actionFactory.setMouseModeWithUnselectAction(entry.getValue()));
+        for (Map.Entry<ActionType, MouseMode> entry : mouseModeNoUnselectActions.entrySet()) {
+            actionService.registerAction(entry.getKey(), actionFactory.setMouseModeNoUnselectAction(entry.getValue()));
         }
 
         // setMouseModeWithAfterColorAndUnselect actions
@@ -227,9 +227,10 @@ public class ActionRegistrationService {
         }));
         actionService.registerAction(ActionType.switchReplaceAction, new LambdaAction(() -> {
             CustomLineTypes temp = applicationModel.getCustomFromLineType();
-
             applicationModel.setCustomFromLineType(applicationModel.getCustomToLineType());
             applicationModel.setCustomToLineType(temp);
+
+            mainCreasePatternWorker.unselect_all(false);
         }));
 
         // - grid actions
@@ -298,25 +299,20 @@ public class ActionRegistrationService {
                 mainCreasePatternWorker.setCheck2(false);
             }
 
-            mainCreasePatternWorker.unselect_all();
         });
         actionService.registerAction(ActionType.fxOAction, new LambdaAction(() -> {
-            mainCreasePatternWorker.unselect_all();
             mainCreasePatternWorker.fix1();
             mainCreasePatternWorker.check1();
         }));
         actionService.registerAction(ActionType.fxTAction, new LambdaAction(() -> {
-            mainCreasePatternWorker.unselect_all();
             mainCreasePatternWorker.fix2();
             mainCreasePatternWorker.check2();
         }));
         actionService.registerAction(ActionType.cAMVAction, e -> {
             applicationModel.setCheck4Enabled(!applicationModel.getCheck4Enabled());
-            mainCreasePatternWorker.unselect_all();
             buttonService.Button_shared_operation();
         });
         actionService.registerAction(ActionType.ckOAction, e -> {
-            mainCreasePatternWorker.unselect_all();
             boolean isEnabled = applicationModel.getCkOEnabled();
             applicationModel.setCkOEnabled(!isEnabled);
 

@@ -889,6 +889,7 @@ public class CreasePattern_Worker_Impl implements CreasePattern_Worker {
             if (sousuu_old != foldLineSet.getTotal()) {
                 record();
             }
+            unselect_all(false);
         } catch (InterruptedException e) {
             Logger.info("v_del_all aborted");
         }
@@ -902,6 +903,7 @@ public class CreasePattern_Worker_Impl implements CreasePattern_Worker {
             if (sousuu_old != foldLineSet.getTotal()) {
                 record();
             }
+            unselect_all(false);
         } catch (InterruptedException e) {
             Logger.info("v_del_all_cc aborted");
         }

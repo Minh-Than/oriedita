@@ -181,5 +181,7 @@ public class MouseHandlerLineSegmentDelete extends BaseMouseHandlerBoxSelect {
             Logger.info("Refreshing selection buttons");
             d.refreshIsSelectionEmpty();
         }
+
+        d.unselect_all(false);
     }
 }

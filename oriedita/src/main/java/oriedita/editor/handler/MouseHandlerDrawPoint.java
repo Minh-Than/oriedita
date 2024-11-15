@@ -36,6 +36,7 @@ public class MouseHandlerDrawPoint extends BaseMouseHandler {
                 //線分の分割-----------------------------------------
                 d.getFoldLineSet().applyLineSegmentDivide(mtsLineSegment, pk);  //i番目の線分(端点aとb)を点pで分割する。i番目の線分abをapに変え、線分pbを加える。
                 d.record();
+                d.unselect_all(false);
             }
         }
     }

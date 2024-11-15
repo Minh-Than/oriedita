@@ -113,6 +113,7 @@ public class MouseHandlerDrawCreaseFree extends BaseMouseHandler {
             }
         }
 
+        d.unselect_all(false);
         d.getLineStep().clear();
     }
 }

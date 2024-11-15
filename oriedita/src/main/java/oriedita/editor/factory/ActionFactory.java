@@ -45,16 +45,17 @@ public class ActionFactory {
             @Override
             public void actionPerformed(ActionEvent e) {
                 canvasModel.setMouseMode(mouseMode);
+                mainCreasePattern_Worker.unselect_all(false);
+
             }
         };
     }
 
-    public OrieditaAction setMouseModeWithUnselectAction(MouseMode mouseMode){
+    public OrieditaAction setMouseModeNoUnselectAction(MouseMode mouseMode){
         return new AbstractOrieditaAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 canvasModel.setMouseMode(mouseMode);
-                mainCreasePattern_Worker.unselect_all();
             }
         };
     }
@@ -80,6 +81,6 @@ public class ActionFactory {
     }
 
     public DegAction degAction(MouseMode mouseMode, AngleSystemModel.AngleSystemInputType angleSystemInputType){
-        return new DegAction(canvasModel, angleSystemModel, buttonService, mouseMode, angleSystemInputType);
+        return new DegAction(canvasModel, angleSystemModel, buttonService, mainCreasePattern_Worker, mouseMode, angleSystemInputType);
     }
 }
