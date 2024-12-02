@@ -6,6 +6,11 @@ import origami.crease_pattern.element.LineSegment;
 import origami.crease_pattern.element.Point;
 import origami.crease_pattern.element.StraightLine;
 
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+import java.awt.geom.PathIterator;
+import java.awt.geom.Point2D;
+
 /**
  * Static utilities for calculations.
  */
@@ -29,7 +34,7 @@ public class OritaCalc {
 
     //A function that determines whether two points are in the same position (true) or different (false) -------------------------------- -
     public static boolean equal(Point p1, Point p2) {
-        return equal(p1, p2, Epsilon.UNKNOWN_01);//The error is defined here.
+        return equal(p1, p2, Epsilon.POINT);
     }
 
     public static boolean equal(Point p1, Point p2, double r) {//r is the error tolerance. Strict judgment if r is negative.
@@ -217,16 +222,16 @@ public class OritaCalc {
             y2min = s2.determineBY();
         }
 
-        if (x1max + rhit + Epsilon.UNKNOWN_01 < x2min) {
+        if (x1max + rhit + Epsilon.POINT < x2min) {
             return LineSegment.Intersection.NO_INTERSECTION_0;
         }
-        if (x1min - rhit - Epsilon.UNKNOWN_01 > x2max) {
+        if (x1min - rhit - Epsilon.POINT > x2max) {
             return LineSegment.Intersection.NO_INTERSECTION_0;
         }
-        if (y1max + rhit + Epsilon.UNKNOWN_01 < y2min) {
+        if (y1max + rhit + Epsilon.POINT < y2min) {
             return LineSegment.Intersection.NO_INTERSECTION_0;
         }
-        if (y1min - rhit - Epsilon.UNKNOWN_01 > y2max) {
+        if (y1min - rhit - Epsilon.POINT > y2max) {
             return LineSegment.Intersection.NO_INTERSECTION_0;
         }
 
@@ -435,16 +440,16 @@ public class OritaCalc {
             y2min = s2.determineBY();
         }
 
-        if (x1max + rhit + Epsilon.UNKNOWN_01 < x2min) {
+        if (x1max + rhit + Epsilon.POINT < x2min) {
             return LineSegment.Intersection.NO_INTERSECTION_0;
         }
-        if (x1min - rhit - Epsilon.UNKNOWN_01 > x2max) {
+        if (x1min - rhit - Epsilon.POINT > x2max) {
             return LineSegment.Intersection.NO_INTERSECTION_0;
         }
-        if (y1max + rhit + Epsilon.UNKNOWN_01 < y2min) {
+        if (y1max + rhit + Epsilon.POINT < y2min) {
             return LineSegment.Intersection.NO_INTERSECTION_0;
         }
-        if (y1min - rhit - Epsilon.UNKNOWN_01 > y2max) {
+        if (y1min - rhit - Epsilon.POINT > y2max) {
             return LineSegment.Intersection.NO_INTERSECTION_0;
         }
 
@@ -696,7 +701,7 @@ public class OritaCalc {
 
     //A function that determines whether two straight lines are parallel.
     public static ParallelJudgement isLineSegmentParallel(StraightLine t1, StraightLine t2) {
-        return isLineSegmentParallel(t1, t2, Epsilon.UNKNOWN_01);
+        return isLineSegmentParallel(t1, t2, Epsilon.PARALLEL_FOR_EDIT);
     }
 
     //A function that determines whether two straight lines are parallel.
@@ -786,6 +791,40 @@ public class OritaCalc {
     //A function that considers a line segment as a straight line and finds the intersection with another straight line. Even if it does not intersect as a line segment, it returns the intersection when it intersects as a straight line
     public static Point findIntersection(LineSegment s1, StraightLine t2) {
         return findIntersection(lineSegmentToStraightLine(s1), t2);
+    }
+
+    /**
+     * Check if a line segment is fully contained inside a GeneralPath.
+     * @param path a GeneralPath
+     * @param lineSegment a target line segment
+     * @return if the line is fully contained
+     */
+    public static boolean isSegmentContainedInGeneralPath(GeneralPath path, Line2D lineSegment) {
+        if (!path.contains(lineSegment.getP1()) || !path.contains(lineSegment.getP2())) return false;
+
+        PathIterator pathIterator = path.getPathIterator(null);
+        double[] coords = new double[2];
+        Point2D.Double lastPoint;
+        Point2D.Double currentPoint = new Point2D.Double();
+
+        while (!pathIterator.isDone()) {
+            int segmentType = pathIterator.currentSegment(coords);
+            switch (segmentType) {
+                case PathIterator.SEG_MOVETO:
+                    currentPoint.setLocation(coords[0], coords[1]);
+                    break;
+                case PathIterator.SEG_LINETO:
+                    lastPoint = (Point2D.Double) currentPoint.clone();
+                    currentPoint.setLocation(coords[0], coords[1]);
+                    Line2D pathSegment = new Line2D.Double(lastPoint, currentPoint);
+                    if (lineSegment.intersectsLine(pathSegment)) return false;
+                    break;
+                case PathIterator.SEG_CLOSE: break;
+            }
+            pathIterator.next();
+        }
+
+        return true;
     }
 
     //A function that moves a line segment in parallel to the side (returns a new line segment without changing the original line segment)

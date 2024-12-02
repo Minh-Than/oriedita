@@ -17,6 +17,8 @@ import origami.data.save.LineSegmentSave;
 import origami.folding.util.SortingBox;
 
 import java.awt.Color;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -219,7 +221,7 @@ public class FoldLineSet {
             }
         }
     }
-    
+
     public boolean isSelectionEmpty(){
         for (int i = 1; i <= total; i++) {
             LineSegment s = lineSegments.get(i);
@@ -1583,7 +1585,7 @@ public class FoldLineSet {
     public LineSegment getClosestLineSegment(Point p) {
         int minrid = 0;
         double minr = 100000.0;
-        LineSegment s1 = new LineSegment(100000.0, 100000.0, 100000.0, 100000.0 + Epsilon.UNKNOWN_01);
+        LineSegment s1 = new LineSegment(100000.0, 100000.0, 100000.0, 100000.1);
         for (int i = 1; i <= total; i++) {
             double sk = OritaCalc.determineLineSegmentDistance(p, get(i));
             if (minr > sk) {
@@ -2182,7 +2184,25 @@ public class FoldLineSet {
                 }
             }
         }
+    }
 
+    public void select_lasso(GeneralPath gp, String selectMode) {
+        boolean isContained;
+
+        for (int i = 1; i <= total; i++){
+            LineSegment s = lineSegments.get(i);
+            isContained = OritaCalc.isSegmentContainedInGeneralPath(gp,
+                    new Line2D.Double(s.determineAX(), s.determineAY(), s.determineBX(), s.determineBY()));
+
+            if(isContained) {
+                if(selectMode.equals("select")){
+                    s.setSelected(2);
+                }
+                if(selectMode.equals("unselect")){
+                    s.setSelected(0);
+                }
+            }
+        }
     }
 
     public void select_lX(LineSegment s_step1, String Dousa_mode) {
