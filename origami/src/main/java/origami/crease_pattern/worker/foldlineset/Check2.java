@@ -10,7 +10,6 @@ public class Check2 {
     public static void apply(FoldLineSet foldLineSet) {
         foldLineSet.getCheck2LineSegment().clear();
 
-        foldLineSet.unselect_all();
         for (var si : foldLineSet.getLineSegmentsIterable()) {
             for (var sj : foldLineSet.getLineSegmentsIterable()) {
                 if (sj == si) break;

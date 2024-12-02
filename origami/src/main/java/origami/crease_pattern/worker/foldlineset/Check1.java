@@ -9,7 +9,6 @@ import origami.crease_pattern.element.LineSegment;
 public class Check1 {
     public static void apply(FoldLineSet foldLineSet) {
         foldLineSet.getCheck1LineSegment().clear();
-        foldLineSet.unselect_all();
         for (var si : foldLineSet.getLineSegmentsIterable()) {
             for (var sj : foldLineSet.getLineSegmentsIterable()) {
                 if (si == sj) break;

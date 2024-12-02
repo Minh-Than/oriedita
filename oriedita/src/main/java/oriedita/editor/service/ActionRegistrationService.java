@@ -231,7 +231,6 @@ public class ActionRegistrationService {
             CustomLineTypes temp = applicationModel.getCustomFromLineType();
             applicationModel.setCustomFromLineType(applicationModel.getCustomToLineType());
             applicationModel.setCustomToLineType(temp);
-
             mainCreasePatternWorker.unselect_all(false);
         }));
 
@@ -293,14 +292,7 @@ public class ActionRegistrationService {
         actionService.registerAction(ActionType.ckTAction, e -> {
             boolean isEnabled = applicationModel.getCkTEnabled();
             applicationModel.setCkTEnabled(!isEnabled);
-
-            if (isEnabled) {
-                mainCreasePatternWorker.check2();//r_hitosiiとr_heikouhanteiは、hitosiiとheikou_hanteiのずれの許容程度
-                mainCreasePatternWorker.setCheck2(true);
-            } else {
-                mainCreasePatternWorker.setCheck2(false);
-            }
-
+            if (isEnabled) mainCreasePatternWorker.check2(); //r_hitosiiとr_heikouhanteiは、hitosiiとheikou_hanteiのずれの許容程度
         });
         actionService.registerAction(ActionType.fxOAction, new LambdaAction(() -> {
             mainCreasePatternWorker.fix1();
@@ -318,12 +310,7 @@ public class ActionRegistrationService {
             boolean isEnabled = applicationModel.getCkOEnabled();
             applicationModel.setCkOEnabled(!isEnabled);
 
-            if (isEnabled) {
-                mainCreasePatternWorker.check1();//r_hitosiiとr_heikouhanteiは、hitosiiとheikou_hanteiのずれの許容程度
-                mainCreasePatternWorker.set_i_check1(true);
-            } else {
-                mainCreasePatternWorker.set_i_check1(false);
-            }
+            if (isEnabled) mainCreasePatternWorker.check1(); //r_hitosiiとr_heikouhanteiは、hitosiiとheikou_hanteiのずれの許容程度
         });
 
         // - angle system actions

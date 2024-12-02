@@ -14,7 +14,6 @@ public class Check3 {
     public static void apply(FoldLineSet foldLineSet) {
         double r = Epsilon.UNKNOWN_1EN4;
         foldLineSet.getCheck3LineSegment().clear();
-        foldLineSet.unselect_all();
         for (var si : foldLineSet.getLineSegmentsIterable()) {
             if (si.getColor() != LineColor.CYAN_3) {
                 int tss;    //頂点の周りの折線の数。　tss%2==0 偶数、==1 奇数
