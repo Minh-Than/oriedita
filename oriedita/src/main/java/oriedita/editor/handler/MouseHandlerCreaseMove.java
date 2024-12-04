@@ -33,7 +33,6 @@ public class MouseHandlerCreaseMove extends BaseMouseHandlerLineTransform {
             Save save = SaveProvider.createInstance();
             d.getFoldLineSet().getMemoSelectOption(save, 2);
             ori_s_temp.setSave(save);//セレクトされた折線だけ取り出してori_s_tempを作る
-            d.record();
             d.getFoldLineSet().delSelectedLineSegmentFast();//セレクトされた折線を削除する。
             ori_s_temp.move(delta.getX(), delta.getY());//全体を移動する
             int total_old = d.getFoldLineSet().getTotal();
