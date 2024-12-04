@@ -104,7 +104,6 @@ public class MouseHandlerCreaseMove4p extends BaseMouseHandlerInputRestricted {
             Save save = SaveProvider.createInstance();
             d.getFoldLineSet().getMemoSelectOption(save, 2);
             ori_s_temp.setSave(save);//セレクトされた折線だけ取り出してori_s_tempを作る
-            d.record();
             d.getFoldLineSet().delSelectedLineSegmentFast();//セレクトされた折線を削除する。
             ori_s_temp.move(d.getLineStep().get(0).getA(), d.getLineStep().get(1).getA(), d.getLineStep().get(2).getA(), d.getLineStep().get(3).getA());//全体を移動する
 
