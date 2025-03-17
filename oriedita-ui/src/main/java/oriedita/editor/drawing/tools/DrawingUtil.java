@@ -16,8 +16,11 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Path2D;
 
 /**
  * Static utility class for drawing
@@ -514,6 +517,7 @@ public class DrawingUtil {
         return region;
     }
 
+    private static final Path2D simpleCAMVDiamond = new Path2D.Double(new Rectangle(-11, -11, 22, 22));
     /**
      * Draws a Flatfoldability violation to the graphics object.
      *
@@ -525,11 +529,13 @@ public class DrawingUtil {
      *                     between types of violations
      */
     public static void drawViolation(Graphics2D g, Point p, FlatFoldabilityViolation violation, int transparency, boolean useAdvanced) {
-        g.setColor(Colors.get(new Color(255, 0, 147, transparency)));
-
         if (!useAdvanced) {
+
+            AffineTransform at = AffineTransform.getTranslateInstance(p.getX(), p.getY());
+            at.rotate(Math.PI / 4.0);
+
             g.setColor(Colors.get(new Color(255, 0, 147, transparency)));
-            g.fillOval((int) p.getX() - 11, (int) p.getY() - 11, 23, 23);
+            g.fill(at.createTransformedShape(simpleCAMVDiamond));
             return;
         }
         Color c;
